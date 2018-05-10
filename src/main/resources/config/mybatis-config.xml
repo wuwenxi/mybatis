@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <properties resource="db.properties"/>
+
+    <typeAliases>
+        <package name="com.wwx.spring.mybatis.beans"/>
+    </typeAliases>
+
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.user}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <!--
+        重要的Dao层接口 推荐使用配置文件的方式
+        不太重要的Dao层接口 推荐使用注解方式
+    -->
+    <mappers>
+        <!--基于配置文件的方式-->
+        <mapper resource="config/EmployeeMapper.xml"/>
+        <!-- 基于注解的方式-->
+        <mapper class="com.wwx.spring.mybatis.dao.EmployeeMapperAnnotation"/>
+    </mappers>
+<!--    <mappers>
+        <package name="com.wwx.spring.mybatis.dao"/>
+    </mappers>-->
+</configuration>
