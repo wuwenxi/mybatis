@@ -21,6 +21,7 @@
     </build>
 
     <dependencies>
+        <!--maven使用mysql驱动器  版本应该受到控制  容易报错-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

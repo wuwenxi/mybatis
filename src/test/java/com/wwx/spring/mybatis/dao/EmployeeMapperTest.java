@@ -8,6 +8,8 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -40,7 +42,14 @@ public class EmployeeMapperTest {
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
         try (SqlSession sqlSession = sqlSessionFactory.openSession()){
             EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
-            Employee employee =  mapper.getEmpById(1);
+            //Employee employee =  mapper.getEmpById(1);
+            Map<String,Object> map = new HashMap<>();
+            /**
+             *   key value 键值对与配置文件中的相同
+             */
+            map.put("id",1);
+            map.put("lastName","Rose");
+            Employee employee = mapper.getEmployeeMap(map);
             System.out.println(employee);
         }
     }
