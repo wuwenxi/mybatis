@@ -6,25 +6,36 @@ public class Employee {
     private String lastName;
     private String gender;
     private String email;
+    private Department department;
 
     public Employee() {
     }
 
-    public Employee(Integer id, String lastName, String gender, String email) {
+    public Employee(Integer id, String lastName, String gender, String email, Department department) {
         this.id = id;
         this.lastName = lastName;
         this.gender = gender;
         this.email = email;
+        this.department = department;
     }
 
     @Override
     public String toString() {
-        return "EmployeeDao{" +
+        return "Employee{" +
                 "id=" + id +
-                ", last_name='" + lastName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", gender='" + gender + '\'' +
                 ", email='" + email + '\'' +
+                ", department=" + department +
                 '}';
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public Integer getId() {
@@ -35,12 +46,12 @@ public class Employee {
         this.id = id;
     }
 
-    public String getLast_name() {
+    public String getLastName() {
         return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.lastName = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getGender() {

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wwx.spring.mybatis.dao.EmployeeMapperPlus">
+    <!--
+           resultMap自定义返回封装的数据类型
+    -->
+    <resultMap id="MyEmp" type="com.wwx.spring.mybatis.beans.Employee">
+
+        <!-- column 表中的每一列
+                property  javaBean中对应的数据
+         -->
+        <id column="id" property="id"/>
+        <result column="last_name" property="lastName"/>
+    </resultMap>
+    <!--    Map<Integer,Employee> getEmpByIdLikeReturnMap(String lastName)-->
+    <select id="getEmpByIdLikeReturnMap" resultMap="MyEmp">
+        select * from employee where last_name like #{lastName};
+    </select>
+
+    <!--Employee getEmpAndDept(Integer id)-->
+    <!-- 进行级联查询: 封装成结果集-->
+    <resultMap id="MyDifMap" type="com.wwx.spring.mybatis.beans.Employee">
+        <id column="id" property="id"/>
+        <result column="gender" property="gender"/>
+        <result column="email" property="email"/>
+        <result column="last_name" property="lastName"/>
+        <!--用javaBean中级联属性名 department-->
+        <result column="did" property="department.id"/>
+        <result column="dept_name" property="department.deptName"/>
+    </resultMap>
+    <select id="getEmpAndDept" resultMap="MyDifMap">
+        select e.id id,e.last_name last_name,e.gender gender,
+        e.email email,e.d_id d_id,d.id did,d.dept_name dept_name
+        from employee e,dept d where e.d_id = d.id and e.id = #{id};
+    </select>
+
+    <!-- 级联查询： 分步查询-->
+    <resultMap id="MyMapByStep" type="com.wwx.spring.mybatis.beans.Employee">
+        <id column="id" property="id"/>
+        <result column="gender" property="gender"/>
+        <result column="email" property="email"/>
+        <result column="last_name" property="lastName"/>
+
+        <!--  采用JavaBean中的类型作为级联关系名
+                select:调用DepartmentMapper方法进行下一级查询
+                column:将第一次查询的结果  作为第二次需要查询的参数
+        -->
+        <association property="department"
+                     select="com.wwx.spring.mybatis.dao.DepartmentMapper.getDeptById"
+                     column="d_id"/>
+    </resultMap>
+
+    <select id="getEmpAndDeptByStep" resultMap="MyMapByStep">
+        select * from employee where id = #{id}
+    </select>
+</mapper>

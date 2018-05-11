@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wwx.spring.mybatis.dao.EmployeeMapper">
+
+    <!--Map<String,Object> getEmpByIdReturnMap(Integer id)-->
+    <select id="getEmpByIdReturnMap" resultType="map">
+        select * from employee where id = #{id}
+    </select>
+    
+    <!-- Map<Integer,Employee> getEmpByIdLikeReturnMap(String lastName)
+         resultType返回值与mybatis封装 返回类型相同
+         这里想要让Map返回一个Employee类型
+    -->
+    <select id="getEmpByIdLikeReturnMap" resultType="employee">
+        select * from employee where last_name like #{lastName}
+    </select>
+
+    <!-- void getEmployeeMap(Map<String,Object> map);-->
+    <select id="getEmployeeMap" resultType="employee">
+        select * from employee where id = #{id} and last_name = #{lastName}
+    </select>
+
+    <!--void getEmployeeByCollection(List<Integer> list)-->
+    <!--  返回数组第一个元素  id = #{list[0]}-->
+    <select id="getEmployeeByCollection" resultType="java.lang.Integer">
+        select * from employee where id = #{list[0]}
+    </select>
+
+    <!--    List<Employee> getEmpByLastName(String lastName);-->
+    <!--如果返回值为集合   resultType类型也应该是集合的类型
+    Mybatis将返回值类型封装到集合中
+    -->
+    <select id="getEmpByLastName" resultType="employee">
+        select * from employee where last_name like #{lastName}
+    </select>
+
+    <select id="getEmpById" resultType="employee">
+        select * from employee where id = #{id}
+    </select>
+
+    <update id="updateEmp">
+        update employee set  last_name = #{lastName},gender = #{gender},email = #{email}
+        where  id = #{id}
+    </update>
+
+    <!-- -->
+   <insert id="insertEmployee" useGeneratedKeys="true" keyProperty="id">
+       insert into employee(last_name,gender,email)
+        values (#{lastName},#{gender},#{email})
+   </insert>
+
+    <delete id="deleteEmpByEmail" >
+        delete from employee where email = #{email}
+    </delete>
+</mapper>

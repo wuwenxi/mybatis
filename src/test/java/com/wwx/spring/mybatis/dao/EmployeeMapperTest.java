@@ -1,14 +1,15 @@
 package com.wwx.spring.mybatis.dao;
 
+import com.wwx.spring.mybatis.beans.Department;
 import com.wwx.spring.mybatis.beans.Employee;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ import java.util.Map;
 public class EmployeeMapperTest {
 
     private SqlSessionFactory getSqlSessionFactory() throws Exception{
-        InputStream inputStream = Resources.getResourceAsStream("config/mybatis-config.xml");
+        InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
         return new SqlSessionFactoryBuilder().build(inputStream);
     }
 
@@ -76,33 +77,6 @@ public class EmployeeMapperTest {
     }
 
     @Test
-    public void insertEmployee() throws  Exception{
-        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
-        try (SqlSession sqlSession = sqlSessionFactory.openSession(true)){
-            Employee employee = new Employee(null,"Jack","1","www.231312@wwx.com");
-            EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
-            Boolean bool = mapper.insertEmployee(employee);
-            System.out.println(employee.getId());
-            //sqlSession.commit();
-            System.out.println("插入对象" + bool);
-        }
-    }
-
-    @Test
-    public void updateEmployee()throws Exception{
-        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()){
-            Employee employee = new Employee(1,"Rose","1",null);
-            EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
-            Boolean bool = mapper.updateEmp(employee);
-            System.out.println(bool);
-            //增删改必须手动提交
-            sqlSession.commit();
-            System.out.println(bool);
-        }
-    }
-
-    @Test
     public void deleteEmployee() throws Exception{
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
         try(SqlSession sqlSession = sqlSessionFactory.openSession()){
@@ -134,28 +108,6 @@ public class EmployeeMapperTest {
     }
 
     @Test
-    public void insertEmployeeAnnotation() throws Exception{
-        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
-        try(SqlSession sqlSession = sqlSessionFactory.openSession()){
-            EmployeeMapperAnnotation annotation = sqlSession.getMapper(EmployeeMapperAnnotation.class);
-            Employee employee = new Employee(null,"DLX","1",null);
-            annotation.insertEmployee(employee);
-            sqlSession.commit();
-        }
-    }
-
-    @Test
-    public void updateEmployeeAnnotation() throws Exception{
-        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
-        try(SqlSession sqlSession = sqlSessionFactory.openSession()){
-            EmployeeMapperAnnotation annotation = sqlSession.getMapper(EmployeeMapperAnnotation.class);
-            Employee employee = new Employee(7,"WWX","0","www.134124@wwx.com");
-            annotation.updateEmp(employee);
-            sqlSession.commit();
-        }
-    }
-
-    @Test
     public void deleteEmployeeAnnotation() throws Exception{
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
         try(SqlSession sqlSession = sqlSessionFactory.openSession()){
@@ -165,6 +117,24 @@ public class EmployeeMapperTest {
             annotation.deleteEmpByEmail(email);
             sqlSession.commit();
         }
+    }
+
+    @Test
+    public void test01() throws Exception{
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+        try(SqlSession sqlSession = sqlSessionFactory.openSession()){
+            EmployeeMapperPlus mapperPlus = sqlSession.getMapper(EmployeeMapperPlus.class);
+
+          /*   Map<Integer,Employee> map = mapperPlus.getEmpByIdLikeReturnMap("%a%");
+            System.out.println(map);*/
+
+            Employee employee = mapperPlus.getEmpAndDeptByStep(11);
+            System.out.println(employee);
+    /*        DepartmentMapper mapper = sqlSession.getMapper(DepartmentMapper.class);
+            Department department = mapper.getDeptById(1);
+            System.out.println(department);*/
+        }
+
     }
 
 

@@ -28,13 +28,15 @@
         重要的Dao层接口 推荐使用配置文件的方式
         不太重要的Dao层接口 推荐使用注解方式
     -->
-    <mappers>
-        <!--基于配置文件的方式-->
-        <mapper resource="config/EmployeeMapper.xml"/>
-        <!-- 基于注解的方式-->
-        <mapper class="com.wwx.spring.mybatis.dao.EmployeeMapperAnnotation"/>
-    </mappers>
 <!--    <mappers>
-        <package name="com.wwx.spring.mybatis.dao"/>
+        &lt;!&ndash;基于配置文件的方式&ndash;&gt;
+        <mapper resource="config/EmployeeMapper.xml"/>
+        <mapper resource="config/EmployeeMapperPlus.xml"/>
+        <mapper resource="config/DepartmentMapper.xml"/>
+        &lt;!&ndash; 基于注解的方式&ndash;&gt;
+        <mapper class="com.wwx.spring.mybatis.dao.EmployeeMapperAnnotation"/>
     </mappers>-->
+    <mappers>
+        <package name="com.wwx.spring.mybatis.dao"/>
+    </mappers>
 </configuration>
