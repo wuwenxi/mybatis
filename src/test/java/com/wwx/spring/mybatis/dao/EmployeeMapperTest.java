@@ -62,6 +62,16 @@ public class EmployeeMapperTest {
             for (Employee employee:list){
                 System.out.println(employee);
             }
+            /**
+             *   返回map类型
+             */
+            //返回单个map类型
+            Map<String,Object> map = mapper.getEmpByIdReturnMap(1);
+            System.out.println(map);
+
+            //返回一组map类型
+            Map<Integer,Employee> empMap = mapper.getEmpByIdLikeReturnMap("%a%");
+            System.out.println(empMap);
         }
     }
 

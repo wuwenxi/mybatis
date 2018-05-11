@@ -2,6 +2,7 @@ package com.wwx.spring.mybatis.dao;
 
 
 import com.wwx.spring.mybatis.beans.Employee;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -49,6 +50,8 @@ public interface EmployeeMapper {
     //返回一个记录的map，key就是对应列名  value就是实际的值
     Map<String,Object> getEmpByIdReturnMap(Integer id);
     //返回多条记录的map，Map<Integer,Employee> key值为对应主键
+    //告诉mybatis以哪个为主键
+    @MapKey("id")
     Map<Integer,Employee> getEmpByIdLikeReturnMap(String lastName);
 
 
