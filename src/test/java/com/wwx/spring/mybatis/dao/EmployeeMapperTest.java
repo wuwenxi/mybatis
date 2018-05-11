@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,14 +44,24 @@ public class EmployeeMapperTest {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()){
             EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
             //Employee employee =  mapper.getEmpById(1);
-            Map<String,Object> map = new HashMap<>();
+
             /**
              *   key value 键值对与配置文件中的相同
              */
+           /* Map<String,Object> map = new HashMap<>();
             map.put("id",1);
             map.put("lastName","Rose");
             Employee employee = mapper.getEmployeeMap(map);
-            System.out.println(employee);
+            System.out.println(employee);*/
+            /**
+             *
+             *    返回值为集合 的处理
+             *
+             */
+            List<Employee> list =mapper.getEmpByLastName("%a%");
+            for (Employee employee:list){
+                System.out.println(employee);
+            }
         }
     }
 

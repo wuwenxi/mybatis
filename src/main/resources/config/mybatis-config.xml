@@ -6,6 +6,10 @@
 
     <properties resource="db.properties"/>
 
+    <settings>
+        <setting name="" value=""/>
+    </settings>
+
     <typeAliases>
         <package name="com.wwx.spring.mybatis.beans"/>
     </typeAliases>

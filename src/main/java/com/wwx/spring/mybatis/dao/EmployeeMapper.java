@@ -37,6 +37,23 @@ public interface EmployeeMapper {
 
     /**
      *
+     *    返回值为集合时
+     * @return
+     */
+    List<Employee> getEmpByLastName(String lastName);
+
+    /**
+     *
+     *    返回map类型
+     */
+    //返回一个记录的map，key就是对应列名  value就是实际的值
+    Map<String,Object> getEmpByIdReturnMap(Integer id);
+    //返回多条记录的map，Map<Integer,Employee> key值为对应主键
+    Map<Integer,Employee> getEmpByIdLikeReturnMap(String lastName);
+
+
+    /**
+     *
      *    增删改查
      *
      * @param id
