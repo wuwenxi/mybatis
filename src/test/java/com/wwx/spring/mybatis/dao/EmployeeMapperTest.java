@@ -10,6 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -130,11 +132,75 @@ public class EmployeeMapperTest {
 
             Employee employee = mapperPlus.getEmpAndDeptByStep(11);
             System.out.println(employee);
+            System.out.println(employee.getDepartment());
     /*        DepartmentMapper mapper = sqlSession.getMapper(DepartmentMapper.class);
             Department department = mapper.getDeptById(1);
             System.out.println(department);*/
         }
 
+    }
+
+    @Test
+    public void test02() throws Exception{
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+        try(SqlSession sqlSession = sqlSessionFactory.openSession()){
+            DepartmentMapper mapper = sqlSession.getMapper(DepartmentMapper.class);
+            Department department = mapper.getDeptByIdStep(1);
+            System.out.println(department);
+            System.out.println(department.getEmp());
+        }
+    }
+
+    @Test
+    public void test03() throws Exception{
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+        try(SqlSession sqlSession = sqlSessionFactory.openSession()){
+            EmployeeMapperDynamicSql mapper = sqlSession.getMapper(EmployeeMapperDynamicSql.class);
+/*
+            List<Employee> employees = mapper.getEmpConditionByIf(
+                    new Employee(null,"%a%",null,null));
+            for (Employee emp:employees){
+                System.out.println(emp);
+            }
+
+            List<Employee> employee = mapper.getEmpConditionByTrim(
+                    new Employee(null,"%a%",null,null));
+            for (Employee emp:employee){
+                System.out.println(emp);
+            }
+
+            List<Employee> employees1 = mapper.getEmpConditionByChoose(
+                    new Employee(null,"%a%",null,null));
+            for(Employee emp:employees1){
+                System.out.println(emp);
+            }
+
+            List<Employee> employees2 = mapper.getEmpConditionByForeach(Arrays.asList(7,8,9,10));
+            for(Employee emp:employees2){
+                System.out.println(emp);
+            }*/
+
+            /**
+             *  批量插入
+             */
+            List<Employee> employee = new ArrayList<>();
+            employee.add(new Employee(null,"jack","1","jack@wwx.com"
+                    ,new Department(3)));
+            employee.add(new Employee(null,"lyon","0","lyon@wwx.com"
+                    ,new Department(2)));
+            mapper.addEmp(employee);
+            sqlSession.commit();
+        }
+    }
+
+    @Test
+    public void test04() throws Exception {
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+        try(SqlSession sqlSession = sqlSessionFactory.openSession()){
+            EmployeeMapperDynamicSql mapper = sqlSession.getMapper(EmployeeMapperDynamicSql.class);
+            mapper.updateEmp(new Employee(1,"tom","1","tom@wwx.com"));
+            sqlSession.commit();
+        }
     }
 
 

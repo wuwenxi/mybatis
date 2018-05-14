@@ -45,7 +45,7 @@
 
         <!--  采用JavaBean中的类型作为级联关系名
                 select:调用DepartmentMapper方法进行下一级查询
-                column:将第一次查询的结果  作为第二次需要查询的参数
+                column:将第一次查询出的结果  作为第二次需要查询的参数
         -->
         <association property="department"
                      select="com.wwx.spring.mybatis.dao.DepartmentMapper.getDeptById"
@@ -54,5 +54,17 @@
 
     <select id="getEmpAndDeptByStep" resultMap="MyMapByStep">
         select * from employee where id = #{id}
+    </select>
+
+
+    <resultMap id="EmpByIdStep" type="com.wwx.spring.mybatis.beans.Employee">
+        <id column="id" property="id"/>
+        <result column="last_name" property="lastName"/>
+        <result column="gender" property="gender"/>
+        <result column="email" property="email"/>
+    </resultMap>
+
+    <select id="getEmpByIdStep" resultMap="EmpByIdStep">
+        select * from employee where d_id = #{deptId}
     </select>
 </mapper>

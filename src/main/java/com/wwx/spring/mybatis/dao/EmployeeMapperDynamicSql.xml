@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wwx.spring.mybatis.dao.EmployeeMapperDynamicSql">
+    <!--
+           动态sql
+           if
+           trim
+           choose
+           foreach
+    -->
+    <!-- List<Employee> getEmpConditionByIf(Employee employee)-->
+    <!--
+        <where> </where>
+        代替where方法进行查询  与if进行配合使用
+    -->
+    <select id="getEmpConditionByIf" resultType="com.wwx.spring.mybatis.beans.Employee">
+        select * from employee
+        <where>
+            <if test="id!=null">
+                id = #{id}
+            </if>
+            <if test="lastName!=null">
+                and last_name like #{lastName}
+            </if>
+            <if test="gender=='0' or gender == '1'">
+                and gender = #{gender}
+            </if>
+            <if test="email!=null">
+                and email = #{email}
+            </if>
+        </where>
+    </select>
+
+    <!--List<Employee> getEmpConditionByTrim(Employee employee)-->
+    <!--
+        trim  拼接字符串
+         prefix:  拼接字符串开头
+         prefixOverrides: 去除字段第一个字符
+         suffix: 拼接字符串结尾
+         suffixOverrides: 去除字段最后一个字符
+    -->
+    <select id="getEmpConditionByTrim" resultType="com.wwx.spring.mybatis.beans.Employee">
+        select * from employee
+        <trim prefix="where" suffixOverrides="and">
+            <if test="id!=null">
+                id = #{id} and
+            </if>
+            <if test="lastName!=null">
+                last_name like #{lastName} and
+            </if>
+            <if test="gender=='0' or gender == '1'">
+                gender = #{gender} and
+            </if>
+            <if test="email!=null">
+                 email = #{email}
+            </if>
+        </trim>
+    </select>
+
+    <!--List<Employee> getEmpConditionByChoose(Employee employee)-->
+    <select id="getEmpConditionByChoose" resultType="com.wwx.spring.mybatis.beans.Employee">
+        select * from employee
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+                <when test="lastName != null">
+                    last_name like #{lastName}
+                </when>
+                <when test="gender =='0' or gender == '1'">
+                    gender = #{gender}
+                </when>
+                <otherwise>
+                    email = #{email}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--void  updateEmp(Employee employee)-->
+    <!--更新数据使用<set>-->
+    <update id="updateEmp">
+        update employee
+        <set>
+            <if test="lastName!=null">
+                last_name=#{lastName},
+            </if>
+            <if test="gender!=null">
+                gender=#{gender},
+            </if>
+            <if test="email!=null">
+                email=#{email},
+            </if>
+            <if test="department!=null">
+                d_id = #{department}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--List<Employee> getEmpConditionByForeach(@Param("id")List<Integer> id)-->
+    <!--
+        集合遍历
+        collection； 指定集合
+        item:集合中的值
+        separator：使用分隔符
+        open：
+        close:
+    -->
+    <select id="getEmpConditionByForeach" resultType="com.wwx.spring.mybatis.beans.Employee">
+        select * from employee where id in
+        <foreach collection="id" item="item_id" separator="," open="(" close=")">
+            #{item_id}
+        </foreach>
+    </select>
+
+    <!--void addEmp(@Param("emp")List<Employee> emp)-->
+    <!--通过foreach批量插入对象-->
+    <insert id="addEmp">
+        insert into employee(last_name,gender,email,d_id)
+        value
+        <foreach collection="emp" item="emp" separator=",">
+            (#{emp.lastName},#{emp.gender},#{emp.email},#{emp.department.id})
+        </foreach>
+    </insert>
+
+</mapper>

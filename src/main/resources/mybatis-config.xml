@@ -5,6 +5,13 @@
 <configuration>
 
     <properties resource="db.properties"/>
+    
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--延迟加载开启-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
 
     <typeAliases>
         <package name="com.wwx.spring.mybatis.beans"/>

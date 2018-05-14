@@ -10,4 +10,20 @@
     <select id="getDeptById" resultMap="MyMap">
         select * from dept where id = #{id}
     </select>
+
+
+    <!--    Department getDeptByIdStep(Integer id) -->
+    <resultMap id="MyDeptStep" type="com.wwx.spring.mybatis.beans.Department">
+        <id column="id" property="id"/>
+        <result column="dept_name" property="deptName"/>
+        <!-- column:传入所调用的方法 参数-->
+        <collection property="emp"
+                    select="com.wwx.spring.mybatis.dao.EmployeeMapperPlus.getEmpByIdStep"
+                    column="id"/>
+    </resultMap>
+
+    <select id="getDeptByIdStep" resultMap="MyDeptStep">
+        select * from dept where id = #{id}
+    </select>
+
 </mapper>

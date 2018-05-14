@@ -11,6 +11,13 @@ public class Employee {
     public Employee() {
     }
 
+    public Employee(Integer id, String lastName, String gender, String email) {
+        this.id = id;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+    }
+
     public Employee(Integer id, String lastName, String gender, String email, Department department) {
         this.id = id;
         this.lastName = lastName;
@@ -25,9 +32,7 @@ public class Employee {
                 "id=" + id +
                 ", lastName='" + lastName + '\'' +
                 ", gender='" + gender + '\'' +
-                ", email='" + email + '\'' +
-                ", department=" + department +
-                '}';
+                ", email='" + email + '\'';
     }
 
     public Department getDepartment() {
